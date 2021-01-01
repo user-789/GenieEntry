@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Pick a username via our helpful genie!</h2>
+
+<p id="question">Loading...</p>
+<button id="before" onclick="newQuestion(false)">Before</button>
+<button id="correct" onclick="correct()">Correct</button>
+<button id="after" onclick="newQuestion(true)">After</button>
+<button id="retry" onclick="init()">Retry</button>
+
+<script>
+"use strict";
+
+function sameCharNum(str1, str2) {
+    for (let i = 0; i < str1.length; i++) {
+        if (str1.charAt(i) != str2.charAt(i)) {
+            return i;
+        }
+    }
+    return str1.length;
+}
+
+function getRandChar(begin, end) {
+    return ALPHABET.charAt(begin + Math.floor(Math.random() * (end - begin)));
+}
+
+function getRandStr(length, begin, end) {
+    if (length == 1) {
+        return getRandChar(begin, end);
+    } else {
+        return getRandStr(length-1, begin, end) + getRandChar(0, ALPHABET.length-1);
+    }
+}
+
+function getRandFace() {
+    if (questionNum <= 2) {
+        return "(^_^)";
+    }
+    return faces[Math.floor(faces.length*Math.random())];
+}
+
+function newQuestion(mustGuessHigher) {
+    questionNum++;
+    if (mustGuessHigher) {
+        lowerBound = questionStr;
+    } else {
+        upperBound = questionStr;
+    }
+    console.log("NEW Q (" + lowerBound + ", " + upperBound + ")");
+    var commonLength = sameCharNum(lowerBound, upperBound);
+    var extraLength = -Math.floor(Math.log(Math.random())/Math.log(1.5));
+    var lowerChar = (lowerBound.length == commonLength) ? "0" : ALPHABET.indexOf(lowerBound.charAt(commonLength));
+    var upperChar = ALPHABET.indexOf(upperBound.charAt(commonLength)) + 1;
+    questionStr = lowerBound.substring(0, commonLength) + getRandStr(extraLength, lowerChar, upperChar);
+    while (questionStr <= lowerBound || questionStr >= upperBound) {
+        console.log("Looping...");
+        extraLength = -Math.floor(Math.log(Math.random())/Math.log(1.5));
+        questionStr = lowerBound.substring(0, commonLength) + getRandStr(extraLength, lowerChar, upperChar);
+    }
+    document.getElementById("question").innerHTML = getRandFace() + " do you want the username " + questionStr + " or something before/after?";
+    
+}
+
+function correct() {
+    console.log("CORR");
+    document.getElementById("question").innerHTML = "👍(^_^) your username is now " + questionStr + ", thanks for using our site!";
+}
+
+var questionNum;
+var lowerBound, upperBound, questionStr;
+var ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZa";
+var faces = ["(^_^)", "(^_^)", "(^_^)", "(-_-)", "(-_-)", "(O_O)", "(O_o)", "(o_O)", "(>.<)", "(<.<)", "(>.>)", "(*-*)", "(*-*)"]
+
+function init() {
+    lowerBound = "0";
+    upperBound = "a"; //larger than all chars in alphabet
+    questionStr = "0";
+    questionNum = 0;
+    newQuestion(true);
+}
+
+init();
+
+</script>
+
+</body>
+</html>
+
