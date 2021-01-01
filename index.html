@@ -43,21 +43,32 @@ function getRandFace() {
 
 function newQuestion(mustGuessHigher) {
     questionNum++;
+    console.log(questionStr);
+    console.log(questionStr+"0");
+    console.log(upperBound == questionStr+"0")
     if (mustGuessHigher) {
+        if (upperBound == questionStr+"0") {
+            document.getElementById("question").innerHTML = "(⋋_⋌) that's impossible... do you want the username " + questionStr + " or something before?";
+            return;
+        }
         lowerBound = questionStr;
     } else {
+        if (questionStr == lowerBound+"0") {
+            document.getElementById("question").innerHTML = "(⋋_⋌) that's impossible... do you want the username " + questionStr + " or something after?";
+            return;
+        }
         upperBound = questionStr;
     }
     console.log("NEW Q (" + lowerBound + ", " + upperBound + ")");
     var commonLength = sameCharNum(lowerBound, upperBound);
     var extraLength = -Math.floor(Math.log(Math.random())/Math.log(1.5));
-    var lowerChar = (lowerBound.length == commonLength) ? "0" : ALPHABET.indexOf(lowerBound.charAt(commonLength));
-    var upperChar = ALPHABET.indexOf(upperBound.charAt(commonLength)) + 1;
-    questionStr = lowerBound.substring(0, commonLength) + getRandStr(extraLength, lowerChar, upperChar);
+    var lowerCharIndex = (lowerBound.length == commonLength) ? 0 : ALPHABET.indexOf(lowerBound.charAt(commonLength));
+    var upperCharIndex = ALPHABET.indexOf(upperBound.charAt(commonLength)) + 1;
+    questionStr = lowerBound.substring(0, commonLength) + getRandStr(extraLength, lowerCharIndex, upperCharIndex);
     while (questionStr <= lowerBound || questionStr >= upperBound) {
         console.log("Looping...");
         extraLength = -Math.floor(Math.log(Math.random())/Math.log(1.5));
-        questionStr = lowerBound.substring(0, commonLength) + getRandStr(extraLength, lowerChar, upperChar);
+        questionStr = lowerBound.substring(0, commonLength) + getRandStr(extraLength, lowerCharIndex, upperCharIndex);
     }
     document.getElementById("question").innerHTML = getRandFace() + " do you want the username " + questionStr + " or something before/after?";
     
