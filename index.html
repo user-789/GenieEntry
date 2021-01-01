@@ -44,8 +44,6 @@ function getRandFace() {
 function newQuestion(mustGuessHigher) {
     questionNum++;
     console.log(questionStr);
-    console.log(questionStr+"0");
-    console.log(upperBound == questionStr+"0")
     if (mustGuessHigher) {
         if (upperBound == questionStr+"0") {
             document.getElementById("question").innerHTML = "(⋋_⋌) that's impossible... do you want the username " + questionStr + " or something before?";
@@ -85,9 +83,9 @@ var ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZa";
 var faces = ["(^_^)", "(^_^)", "(^_^)", "(-_-)", "(-_-)", "(O_O)", "(O_o)", "(o_O)", "(>.<)", "(<.<)", "(>.>)", "(*-*)", "(*-*)"]
 
 function init() {
-    lowerBound = "0";
+    lowerBound = "";
     upperBound = "a"; //larger than all chars in alphabet
-    questionStr = "0";
+    questionStr = "";
     questionNum = 0;
     newQuestion(true);
 }
