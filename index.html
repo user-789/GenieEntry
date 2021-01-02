@@ -5,8 +5,8 @@
 <h2>Pick a username via our helpful genie!</h2>
 
 <p id="question">Loading...</p>
-<button id="before" onclick="newQuestion(false)">Before</button>
 <button id="correct" onclick="correct()">Correct</button>
+<button id="before" onclick="newQuestion(false)">Before</button>
 <button id="after" onclick="newQuestion(true)">After</button>
 <button id="retry" onclick="init()">Retry</button>
 
@@ -69,7 +69,7 @@ function newQuestion(mustGuessHigher) {
         questionStr = lowerBound.substring(0, commonLength) + getRandStr(extraLength, lowerCharIndex, upperCharIndex);
     }
     document.getElementById("question").innerHTML = getRandFace() + " do you want the username " + questionStr + " or something before/after?";
-    
+    document.getElementById("correct").innerHTML = questionStr;
 }
 
 function correct() {
@@ -96,4 +96,3 @@ init();
 
 </body>
 </html>
-
